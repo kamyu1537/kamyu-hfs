@@ -1,6 +1,5 @@
 'use strict';
 
-import child from 'child_process';
 import { app, protocol, BrowserWindow } from 'electron';
 import {
   createProtocol,
@@ -15,6 +14,9 @@ function createWindow() {
   win = new BrowserWindow({
     width: 420,
     height: 570,
+    fullscreenable: false,
+    fullscreen: false,
+    maximizable: false,
     webPreferences: {
       nodeIntegration: Boolean(process.env.ELECTRON_NODE_INTEGRATION)
     }
