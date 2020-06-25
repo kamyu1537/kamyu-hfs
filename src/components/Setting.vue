@@ -57,8 +57,8 @@
         port = this.currPort;
       }
 
-      port = Math.min(port, 65536);
-      port = Math.max(port, 1);
+      port = Math.min(port, 65535);
+      port = Math.max(port, 0);
 
       if (this.currPort == port) return;
       this.port = port.toString();
