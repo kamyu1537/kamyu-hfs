@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import router from './routes';
+import './components.js';
 import './theme.js';
 import './electron/renderer_ipc';
 import store from './store';

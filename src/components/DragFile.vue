@@ -8,10 +8,17 @@
   >
     <b-loading :is-full-page="true" :active.sync="loading" :can-cancel="false"></b-loading>
 
+    <input id="select-file" type="file" style="display: none" />
     <div class="content">
       <unicon name="file-plus" width="45" height="45" />
       <div>Drag your files here</div>
-      <div class="btn-cancel" @click="() => {
+      <div class="btn top" @click="() => {
+        if (loading) return;
+        selectFile()
+      }">
+        Select
+      </div>
+      <div class="btn" @click="() => {
         if (loading) return;
         onCancel()
       }">
@@ -29,10 +36,45 @@
   export default class DragFile extends Vue {
     @Prop({ default: false })
     private active!: boolean;
+    private selection = false;
     private loading = false;
 
     @Prop()
     private onCancel!: Function;
+
+    selectFile() {
+      const input = document.getElementById('select-file') as HTMLInputElement;
+      if (input) {
+        this.loading = true;
+        input.onchange = () => {
+          // @ts-ignore
+          for (let f of input.files) {
+            ipcRenderer.send('add-file', f.path);
+          }
+
+          setTimeout(() => {
+            ipcRenderer.send('refresh');
+            this.loading = false;
+            this.onCancel();
+          }, 1000);
+        };
+
+        document.body.onfocus = () => {
+          setTimeout(() => {
+            if (this.selection && this.loading) {
+              if (input.value.length < 1) {
+                this.loading = false;
+              }
+            }
+            this.selection = false;
+            input.value = '';
+          }, 100);
+        };
+
+        input.click();
+        this.selection = true;
+      }
+    }
 
     onDrop(e: any) {
       e.preventDefault();
@@ -82,11 +124,14 @@
       margin-bottom: 5px;
     }
 
-    .btn-cancel {
-      margin-top: 20px;
+    .btn {
       color: black;
       cursor: pointer;
-      padding-bottom: 2px;
+      padding: 0 2px 2px;
+
+      &.top {
+        margin-top: 20px;
+      }
 
       &:hover {
         padding: 0 2px;
@@ -106,7 +151,7 @@
         filter: invert(1);
       }
 
-      .btn-cancel {
+      .btn {
         color: white;
 
         &:hover {

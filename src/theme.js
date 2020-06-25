@@ -3,16 +3,14 @@ import Vue from 'vue';
 import Unicon from 'vue-unicons';
 import 'buefy/dist/buefy.min.css';
 
-import {uniFolder, uniFolderPlus, uniFile, uniFilePlus, uniFolderTimes, uniFileTimes, uniTrash} from 'vue-unicons/src/icons';
+import {uniFolder, uniFile, uniFilePlus, uniSetting, uniMultiply} from 'vue-unicons/src/icons';
 
 Unicon.add([
   uniFolder,
-  uniFolderPlus,
+  uniSetting,
   uniFile,
   uniFilePlus,
-  uniFolderTimes,
-  uniFileTimes,
-  uniTrash]);
+  uniMultiply]);
 
 Vue.use(Unicon);
 Vue.use(Buefy);

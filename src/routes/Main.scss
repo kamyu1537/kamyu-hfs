@@ -18,22 +18,29 @@
     font-weight: 700;
 
     .port {
-      font-size: 15px;
+      font-size: 14px;
       display: inline-block;
     }
   }
 
   .k-buttons {
     position: absolute;
-    top: 40px;
-    right: 40px;
+    top: 30px;
+    right: 25px;
 
     a {
-      margin-left: 10px;
+      display: inline-block;
+      transition: background-color 0.3s;
+      border-radius: 0.5*45px;
+      padding: 10px 10px 5px;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.075);
+      }
     }
   }
 
-  .k-list {
+  .k-content {
     margin: 20px 20px 0 20px;
     max-height: 400px;
     overflow: auto;
@@ -58,7 +65,7 @@
         height: 25px;
       }
 
-      &:hover {
+      &:hover[data-isList] {
         background: rgba(0, 0, 0, 0.075);
         cursor: pointer;
       }
@@ -71,6 +78,14 @@
 
     .unicon {
       filter: invert(1);
+    }
+
+    .k-buttons {
+      a {
+        &:hover {
+          background: rgba(255, 255, 255, 0.15);
+        }
+      }
     }
 
     .k-list {

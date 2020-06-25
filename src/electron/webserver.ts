@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import URL from 'url';
 import mime from 'mime-types';
+import storage from 'electron-json-storage';
 
 const paths: { [key: string]: any } = {};
 
@@ -76,10 +77,27 @@ interface ServerAddress {
   port: number;
 }
 
-let port: number;
-serve.listen(0, () => {
+const serverListen = () => {
   port = (serve.address() as ServerAddress).port;
   console.info('binding port: ' + port);
+  storage.set('server', { port }, () => {
+    console.info('saved');
+  });
+};
+
+let port: number;
+storage.get('server', (err, data: any) => {
+  if (err) port = 0;
+  else port = data.port as number;
+
+  serve.listen(port !== 0 ? port : 0, serverListen);
+});
+
+
+ipcMain.on('set-port', (event, port) => {
+  serve.close();
+  serve.listen(port, serverListen);
+  event.reply('get-port', port);
 });
 
 ipcMain.on('get-port', (event) => {
