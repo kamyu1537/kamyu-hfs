@@ -57,6 +57,10 @@
         port = this.currPort;
       }
 
+      port = Math.min(port, 65536);
+      port = Math.max(port, 1);
+
+      if (this.currPort == port) return;
       this.port = port.toString();
 
       clearTimeout(this.timeout);
