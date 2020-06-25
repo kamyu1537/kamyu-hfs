@@ -142,6 +142,7 @@
         .k-value {
           border-bottom: 2px solid white;
           color: white;
+          background-color: black !important;
         }
       }
 
