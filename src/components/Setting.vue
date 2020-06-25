@@ -50,6 +50,7 @@
 
     @Watch('port')
     changePort(val: string, old: string) {
+      clearTimeout(this.timeout);
       if (!old) return;
 
       let port = Number(val);
@@ -59,11 +60,9 @@
 
       port = Math.min(port, 65535);
       port = Math.max(port, 0);
-
-      if (this.currPort == port) return;
       this.port = port.toString();
+      if (this.currPort == port) return;
 
-      clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         ipcRenderer.send('set-port', Number(this.port));
         this.savedToast();
